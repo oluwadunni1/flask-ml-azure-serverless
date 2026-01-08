@@ -218,6 +218,8 @@ This book is being written "just in time", with a weekly release schedule.
 
 ![cloud4data books](https://d2sofvawe08yqg.cloudfront.net/cloud4data/hero2x?1578933644)
 
+edited by the boy dunnibot in cloud shell
+
 
 
 
