@@ -4,9 +4,16 @@ import logging
 import traceback
 import pandas as pd
 import joblib
+import sys 
 
-# 1. CRITICAL IMPORT: This allows joblib to understand your custom pipeline
+# 1. Import your custom class
+import preprocessing
 from preprocessing import HousingFeatureEngineer
+
+# 2. THE PATCH: Redirect __main__ to preprocessing
+# This tells the model: "When you look for __main__.HousingFeatureEngineer, look here instead."
+if 'HousingFeatureEngineer' not in sys.modules['__main__'].__dict__:
+    sys.modules['__main__'].HousingFeatureEngineer = HousingFeatureEngineer
 
 app = Flask(__name__)
 LOG = create_logger(app)
@@ -14,35 +21,21 @@ LOG.setLevel(logging.INFO)
 
 @app.route("/")
 def home():
-    html = "<h3>Custom Housing Price Prediction API (Active)</h3>"
-    return html
+    return "<h3>Custom Housing Price Prediction API (Active)</h3>"
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    """Performs a prediction using the custom pipeline"""
-    
-    # 2. Load the Pipeline (Model + Preprocessing)
     try:
-        # This file contains the "Mega Pipeline" that does scaling -> engineering -> prediction
+        # Load the Pipeline
         model_pipeline = joblib.load("housing_full_pipeline.joblib")
-    except Exception as e:
-        LOG.error("Error loading model: %s", str(e))
-        LOG.error("Exception traceback: %s", traceback.format_exc())
-        return "Model not loaded"
-
-    try:
-        # 3. Get Data
+        
         json_payload = request.json
         LOG.info("JSON payload: %s", json_payload)
         
         inference_payload = pd.DataFrame(json_payload)
         LOG.info("Inference payload DataFrame: %s", inference_payload)
         
-        # 4. Predict
-        # We do NOT need to call a separate scale() function. 
-        # The pipeline handles raw data automatically.
         prediction = list(model_pipeline.predict(inference_payload))
-        
         return jsonify({"prediction": prediction})
         
     except Exception as e:
