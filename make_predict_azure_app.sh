@@ -1,29 +1,11 @@
 #!/usr/bin/env bash
 
-PORT=443
-echo "Port: $PORT"
+echo "Testing Azure App..."
 
-# POST method predict
-curl -d '{
-   "CHAS":{
-      "0":0
-   },
-   "RM":{
-      "0":6.575
-   },
-   "TAX":{
-      "0":296.0
-   },
-   "PTRATIO":{
-      "0":15.3
-   },
-   "B":{
-      "0":396.9
-   },
-   "LSTAT":{
-      "0":4.98
-   }
-}'\
-     -H "Content-Type: application/json" \
-     -X POST https://<yourappname>.azurewebsites.net:$PORT/predict 
-     #your application name <yourappname>goes here
+curl -X POST https://flask-ml-dunni-2026.azurewebsites.net/predict      -H "Content-Type: application/json"      -d '{
+           "SquareFeet": [2500],
+           "Bedrooms": [3],
+           "Bathrooms": [2],
+           "YearBuilt": [2015],
+           "Neighborhood": ["Rural"]
+         }'
