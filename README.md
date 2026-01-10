@@ -8,8 +8,8 @@ A production-grade Machine Learning system that predicts housing prices. This pr
 
 ---
 
-## 🏗 System Architecture
-This is not just a model; it is a live system. The pipeline automates the transition from experimental code to a production API.
+## System Architecture
+The pipeline automates the transition from experimental code to a production API.
 
 **Data Science** $\rightarrow$ **Engineering** $\rightarrow$ **Production**
 
@@ -22,7 +22,7 @@ This is not just a model; it is a live system. The pipeline automates the transi
 
 ---
 
-## 🔬 Part 1: The Research (Data Science)
+## Part 1: The Research (Data Science)
 *Objective: Rigorously test whether model complexity translates to better performance.*
 
 Before building the app, I benchmarked **Linear Regression** against **XGBoost** and **KNN**. The analysis proved that a simple, interpretable linear model outperformed "black box" alternatives for this dataset.
@@ -43,7 +43,7 @@ Before building the app, I benchmarked **Linear Regression** against **XGBoost**
 
 ---
 
-## 🛠 Part 2: The Engineering (MLOps)
+## Part 2: The Engineering (MLOps)
 *Objective: Deploy the chosen model as a scalable, automated API.*
 
 To operationalize the Linear Regression model, I solved several engineering challenges:
@@ -53,13 +53,13 @@ To operationalize the Linear Regression model, I solved several engineering chal
 
 ---
 
-## 🚀 Live Demo & API Usage
+## Live Demo & API Usage
 
 ### 1. Verification (Live Cloud Prediction)
 Below is a verification of the API running live on Azure, correctly processing a JSON payload and returning a prediction.
 
 ![Cloud Prediction Proof](figures/cloud_prediction_proof.png)
-*(Screenshot: cURL request to the Azure endpoint)*
+
 
 ### 2. Test It Yourself
 The API is public. You can send a POST request to get a prediction:
@@ -74,3 +74,20 @@ curl -X POST [https://flask-ml-dunni-2026.azurewebsites.net/predict](https://fla
            "YearBuilt": [2015],
            "Neighborhood": ["Rural"]
          }'
+```
+
+## Project Structure 
+
+```text
+├── .github/workflows        # CI/CD: GitHub Actions configuration
+├── figures/                 # Documentation: Architecture diagrams, plots & screenshots
+├── notebooks/               # Research: EDA, Model Comparison (Linear vs XGBoost)
+├── app.py                   # Application: Flask API entry point
+├── Dockerfile               # Deployment: Container configuration for reproducibility
+├── Makefile                 # Automation: Shortcuts for installation (make install) & linting
+├── housing_full_pipeline.joblib  # Artifact: Serialized model & pipeline object
+├── make_predict_azure_app.sh # Testing: Script to send cURL requests to the live Azure app
+├── make_predict.sh          # Testing: Script to test the Flask app locally
+├── preprocessing.py         # Engineering: Custom feature transformation classes
+├── requirements.txt         # Dependencies: Python package list (pinned versions)
+└── README.md                # Documentation: Project overview & setup guide
