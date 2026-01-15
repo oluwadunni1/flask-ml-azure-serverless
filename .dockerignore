@@ -1,10 +1,18 @@
-__pycache__
-*.pyc
+# Ignore Git history
 .git
-.github
 .gitignore
-.myenv
-venv
-env
+
+# Ignore large dev files
+notebooks/
+figures/
+__pycache__/
+
+# Ignore the virtual environment (Important!)
+.venv/
+env/
+
+# Ignore the scripts that run OUTSIDE the container
+make_predict.sh
+make_predict_azure_app.sh
+Makefile
 README.md
-Dockerfile
